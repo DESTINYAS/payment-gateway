@@ -20,7 +20,7 @@
     <properties>
         <java.version>21</java.version>
         <maven.compiler.release>21</maven.compiler.release>
-        <testcontainers.version>1.19.8</testcontainers.version>
+        <testcontainers.version>1.20.4</testcontainers.version>
     </properties>
 
     <dependencies>
@@ -80,6 +80,12 @@
                     <includes>
                         <include>**/*IT.java</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <!-- Testcontainers 1.20 still sends API 1.32; Docker 29 needs >= 1.40. -->
+                        <api.version>1.44</api.version>
+                        <!-- Ryuk cannot mount the colima socket; containers are still removed on JVM exit. -->
+                        <testcontainers.ryuk.disabled>true</testcontainers.ryuk.disabled>
+                    </systemPropertyVariables>
                 </configuration>
                 <executions>
                     <execution>
