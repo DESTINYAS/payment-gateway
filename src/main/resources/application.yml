@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: payment-gateway
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/payments}
+    username: ${DB_USERNAME:payments}
+    password: ${DB_PASSWORD:payments}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none          # schema is owned by db/schema.sql
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+
+payments:
+  webhook:
+    secret: ${WEBHOOK_SECRET:change-me-in-production}
+    tolerance-seconds: 300
+  gateway:
+    base-url: ${GATEWAY_BASE_URL:http://localhost:9000}
+    connect-timeout-ms: 2000
+    read-timeout-ms: 5000
+    max-attempts: 3
+    initial-backoff-ms: 200
+    backoff-multiplier: 2.0
+    max-backoff-ms: 2000
